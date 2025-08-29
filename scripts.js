@@ -243,7 +243,7 @@ class WeddingMemoryBookUploader {
             timestamp: new Date().toISOString(),
             uploadTime: new Date().toLocaleString(),
             fileSize: result.fileSize,
-            githubPath: result.githubPath
+            imgbbId: result.imgbbId
           };
           this.addToGallery(photoData);
         } else {
@@ -281,58 +281,46 @@ class WeddingMemoryBookUploader {
 
   async uploadSingleFile(file) {
     try {
-      console.log('Starting GitHub upload for:', file.name);
+      console.log('Starting ImgBB upload for:', file.name);
       
-      // Convert file to base64
-      const base64Content = await this.fileToBase64(file);
+      // Create FormData for ImgBB
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('key', '8e5838143aba68a9f5917c4c95b0737f');
+      formData.append('name', `wedding_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
       
-      // Create unique filename with timestamp
-      const timestamp = Date.now();
-      const randomId = Math.random().toString(36).substr(2, 9);
-      const fileExtension = file.name.split('.').pop();
-      const fileName = `${timestamp}_${randomId}.${fileExtension}`;
+      console.log('Uploading to ImgBB...');
       
-      console.log('Uploading to GitHub...');
-      
-      // GitHub API configuration
-      const githubUsername = 'amaankolo';
-      const repoName = 'wedding-memory-book';
-      const token = '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';
-      
-      const response = await fetch(`https://api.github.com/repos/${githubUsername}/${repoName}/contents/uploaded-photos/${fileName}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `token ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: `Add wedding photo: ${fileName}`,
-          content: base64Content,
-          branch: 'main'
-        })
+      const response = await fetch('https://api.imgbb.com/1/upload', {
+        method: 'POST',
+        body: formData
       });
       
-      console.log('GitHub response status:', response.status);
+      console.log('ImgBB response status:', response.status);
       
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('GitHub error response:', errorText);
-        throw new Error(`GitHub upload failed: ${response.status} - ${errorText}`);
+        console.error('ImgBB error response:', errorText);
+        throw new Error(`ImgBB upload failed: ${response.status} - ${errorText}`);
       }
       
       const result = await response.json();
-      console.log('GitHub upload successful:', result);
+      console.log('ImgBB upload successful:', result);
       
-      // Create the public URL for GitHub Pages
-      const publicUrl = `https://${githubUsername}.github.io/${repoName}/uploaded-photos/${fileName}`;
+      if (!result.success) {
+        throw new Error(`ImgBB upload failed: ${result.error?.message || 'Unknown error'}`);
+      }
+      
+      // Create a unique ID for the photo
+      const photoId = Date.now() + '_' + Math.random().toString(36).substr(2, 9);
       
       return {
         success: true,
-        link: publicUrl,
-        photoId: `${timestamp}_${randomId}`,
+        link: result.data.url, // Direct ImgBB image URL
+        photoId: photoId,
         fileName: file.name,
         fileSize: file.size,
-        githubPath: `uploaded-photos/${fileName}`
+        imgbbId: result.data.id // Store ImgBB ID for reference
       };
     } catch (error) {
       console.error('Upload error:', error);
@@ -343,19 +331,7 @@ class WeddingMemoryBookUploader {
     }
   }
 
-  // Helper function to convert file to base64
-  async fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        // Remove the data:image/jpeg;base64, prefix
-        const base64 = reader.result.split(',')[1];
-        resolve(base64);
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  }
+
 
   showStatus(message, type = '') {
     this.status.textContent = message;
