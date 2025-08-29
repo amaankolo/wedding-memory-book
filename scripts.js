@@ -297,7 +297,7 @@ class WeddingMemoryBookUploader {
       // GitHub API configuration
       const githubUsername = 'amaankolo';
       const repoName = 'wedding-memory-book';
-      const token = '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';
+      const token = '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';
       
       const response = await fetch(`https://api.github.com/repos/${githubUsername}/${repoName}/contents/uploaded-photos/${fileName}`, {
         method: 'PUT',
