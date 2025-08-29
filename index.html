@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sacred Reflections - Wedding Photo Memory Book</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <!-- Elegant Loading Screen -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-content">
+      <div class="islamic-pattern">
+        <div class="geometric-star"></div>
+        <div class="geometric-star"></div>
+        <div class="geometric-star"></div>
+      </div>
+      <h2 class="loading-text">Wedding Memory Book</h2>
+      <p class="loading-subtitle">Preparing Your Memory Book</p>
+      <div class="loading-sparkles">
+        <span>✨</span>
+        <span>💫</span>
+        <span>⭐</span>
+        <span>✨</span>
+        <span>💫</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Header Section -->
+    <header class="header">
+      <div class="arabic-blessing">
+        <p>بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
+      </div>
+      <div class="crown-decoration">
+        <i class="fas fa-heart"></i>
+      </div>
+      <h1 class="main-title">Memory Book</h1>
+      <h2 class="couple-names">Zahraddeen & Laura</h2>
+      <p class="wedding-date">A Sacred Union in Allah's Blessing</p>
+      <p class="welcome-message">
+        Welcome to our Wedding Memory Book! 💕<br>
+        We would love to see our wedding through your eyes! 📸<br>
+        Share your beautiful moments with us and fellow guests.
+      </p>
+    </header>
+
+    <!-- Upload Section -->
+    <section class="upload-section">
+      <div class="upload-container">
+        <div class="upload-area" id="uploadArea">
+          <div class="upload-icon">
+            <i class="fas fa-camera"></i>
+          </div>
+          <h3>Share Your Sacred Moment</h3>
+          <p>Drop photos here or tap to select</p>
+          <input type="file" id="fileInput" accept="image/*" multiple hidden>
+          <div class="upload-formats">
+            <small>Supports: JPG, PNG, HEIC, WebP • Max 10MB each</small>
+          </div>
+        </div>
+        
+        <!-- Guest Information Form -->
+        <div class="guest-info-form" id="guestInfoForm">
+          <div class="form-group">
+            <label for="guestName">Your Name (Optional)</label>
+            <input type="text" id="guestName" placeholder="Enter your name">
+          </div>
+          <div class="form-group">
+            <label for="photoCaption">Photo Caption (Optional)</label>
+            <textarea id="photoCaption" placeholder="Tell us about this special moment..."></textarea>
+          </div>
+          <div class="form-group">
+            <label for="eventMoment">Event Moment</label>
+            <select id="eventMoment">
+              <option value="">Select moment (optional)</option>
+              <option value="lunch">Lunch</option>
+              <option value="reception">Reception</option>
+              <option value="mehendi">Henna Party</option>
+              <option value="family">Family Time</option>
+              <option value="dancing">Dancing & Celebration</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="upload-actions">
+          <button class="upload-btn" id="uploadBtn" disabled>
+            <i class="fas fa-heart"></i>
+            Upload Photos
+          </button>
+        </div>
+
+        <div class="status-container">
+          <div id="status" class="status"></div>
+          <div id="progressBar" class="progress-bar hidden">
+            <div class="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Preview Section -->
+    <section class="preview-section hidden" id="previewSection">
+      <h3><i class="fas fa-images"></i> Selected Memories</h3>
+      <div class="preview-grid" id="previewGrid"></div>
+      <button class="clear-btn" id="clearBtn">
+        <i class="fas fa-trash"></i> Clear All
+      </button>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+      <h3><i class="fas fa-heart"></i> Photo Gallery</h3>
+      <p class="gallery-subtitle">Moments captured by our beloved guests</p>
+      
+      <!-- Gallery Filters -->
+      <div class="gallery-filters">
+        <button class="filter-btn active" data-filter="all">All Memories</button>
+        <button class="filter-btn" data-filter="reception">Reception</button>
+        <button class="filter-btn" data-filter="mehendi">Lunch</button>
+        <button class="filter-btn" data-filter="family">Family</button>
+      </div>
+      
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- Uploaded photos will appear here -->
+      </div>
+    </section>
+
+    <!-- Admin Panel (Hidden by default) -->
+    <section class="admin-panel hidden" id="adminPanel">
+      <h3><i class="fas fa-cog"></i> Admin Panel</h3>
+      <div class="admin-actions">
+        <button class="admin-btn" id="downloadAllBtn">
+          <i class="fas fa-download"></i> Download All Photos
+        </button>
+        <button class="admin-btn" id="togglePublicBtn">
+          <i class="fas fa-eye"></i> Toggle Public Gallery
+        </button>
+        <button class="admin-btn" id="exportDataBtn">
+          <i class="fas fa-file-export"></i> Export Data
+        </button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-decoration">
+        <div class="geometric-border"></div>
+      </div>
+      <p>Crafted with <i class="fas fa-heart"></i> for Zahraddeen & Laurah's Sacred Union</p>
+      <p>May your love story continue to shine like precious gold ✨</p>
+      <div class="footer-pattern">
+        <span class="pattern-element">❋</span>
+        <span class="pattern-element">❋</span>
+        <span class="pattern-element">❋</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Floating Islamic Patterns -->
+  <div class="floating-patterns">
+    <div class="pattern-shape pattern-1"></div>
+    <div class="pattern-shape pattern-2"></div>
+    <div class="pattern-shape pattern-3"></div>
+  </div>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
